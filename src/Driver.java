@@ -12,6 +12,7 @@ public class Driver {
     private String state;
     private String country;
     private String zipCode;
+    private String status;
 
     // Constructor
     public Driver(String dFirstName,
@@ -24,7 +25,8 @@ public class Driver {
                   String dCity,
                   String dState,
                   String dCounty,
-                  String dZipCode){
+                  String dZipCode,
+                  String dStatus){
 
         this.firstName = dFirstName;
         this.lastName = dLastName;
@@ -37,6 +39,7 @@ public class Driver {
         this.state = dState;
         this.country = dCounty;
         this.zipCode = dZipCode;
+        this.status = dStatus;
     }
 
     // Getters
@@ -76,6 +79,7 @@ public class Driver {
     public String getdZipCode(){
         return zipCode;
     }
+    public String getdStatus() { return status; }
 
     //Setters
     public void setdId(int driverID){

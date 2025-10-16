@@ -15,8 +15,8 @@ class DriverDAOSQLite implements DriverDAO{
     public int insert(Driver d) throws Exception {
         // SQL query statement for easy usage and maintenance
         String INSERT_DRIVER_SQL = "INSERT INTO driver (first_name, last_name, email, " +
-            "phone_no, license_no, dob, street_address, city, state, country, zip_code" +
-            ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            "phone_no, license_no, dob, street_address, city, state, country, zip_code, status" +
+            ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try(Connection c = DatabaseManager.get();
             PreparedStatement ps = c.prepareStatement(INSERT_DRIVER_SQL, Statement.RETURN_GENERATED_KEYS)) {
 
@@ -32,6 +32,7 @@ class DriverDAOSQLite implements DriverDAO{
             ps.setString(9, d.getdState());
             ps.setString(10, d.getdCountry());
             ps.setString(11, d.getdZipCode());
+            ps.setString(12, d.getdStatus());
             ps.executeUpdate();
             try (ResultSet rs = ps.getGeneratedKeys()) {
                 // Pull driver_id from database (auto-generated) and store in Driver object for reference
@@ -66,7 +67,8 @@ class DriverDAOSQLite implements DriverDAO{
                         rs.getString("city"),
                         rs.getString("state"),
                         rs.getString("country"),
-                        rs.getString("zip_code")
+                        rs.getString("zip_code"),
+                        rs.getString("status")
                 );
                 d.setdId(rs.getInt("driver_id"));
                 return Optional.of(d);
@@ -97,7 +99,8 @@ class DriverDAOSQLite implements DriverDAO{
                         rs.getString("city"),
                         rs.getString("state"),
                         rs.getString("country"),
-                        rs.getString("zip_code")
+                        rs.getString("zip_code"),
+                        rs.getString("status")
                 );
                 d.setdId(rs.getInt("driver_id"));
                 out.add(d);
@@ -112,7 +115,7 @@ class DriverDAOSQLite implements DriverDAO{
         // SQL query statement for easy usage and maintenance
         String UPDATE_DRIVER_SQL = "UPDATE driver SET first_name = ?, last_name = ?, " +
             "email = ?, phone_no = ?, license_no = ?, dob = ?, street_address = ?, city = ?, " +
-            "state = ?, country = ?, zip_code = ? WHERE driver_id = ?";
+            "state = ?, country = ?, zip_code = ?, status = ? WHERE driver_id = ?";
         try(Connection c = DatabaseManager.get();
             PreparedStatement ps = c.prepareStatement(UPDATE_DRIVER_SQL)) {
 
@@ -128,7 +131,8 @@ class DriverDAOSQLite implements DriverDAO{
             ps.setString(9, d.getdState());
             ps.setString(10, d.getdCountry());
             ps.setString(11, d.getdZipCode());
-            ps.setInt(12, d.getdId());
+            ps.setString(12, d.getdStatus());
+            ps.setInt(13, d.getdId());
             return ps.executeUpdate();
         }
     }

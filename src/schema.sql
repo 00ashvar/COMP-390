@@ -6,7 +6,8 @@ CREATE TABLE rider (
     first_name TEXT NOT NULL,
     last_name TEXT NOT NULL,
     email TEXT NOT NULL,
-    phone_no TEXT NOT NULL
+    phone_no TEXT NOT NULL,
+    status TEXT CHECK (status IN ('active', 'inactive'))
 );
 
 CREATE TABLE driver (
@@ -21,7 +22,8 @@ CREATE TABLE driver (
     city TEXT,
     state TEXT,
     country TEXT,
-    zip_code TEXT
+    zip_code TEXT,
+    status TEXT CHECK (status IN ('active', 'inactive'))
 );
 
 CREATE TABLE car (
