@@ -1,38 +1,19 @@
-public class Rider {
+public class Rider extends User{
 
     private int riderID;
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String phone;
 
     // Constructor
-    public Rider(String rFirstName,
-                  String rLastName,
-                  String rEmail,
-                  String rPhone){
-
-        this.firstName = rFirstName;
-        this.lastName = rLastName;
-        this.email = rEmail;
-        this.phone = rPhone;
+    public Rider(String firstName,
+                 String lastName,
+                 String email,
+                 String phone,
+                 String status){
+        super(firstName, lastName, email, phone, status);
     }
 
     // Getters
     public int getrId(){
         return riderID;
-    }
-    public String getrFirstName(){
-        return firstName;
-    }
-    public String getrLastName(){
-        return lastName;
-    }
-    public String getrEmail(){
-        return email;
-    }
-    public String getrPhone(){
-        return phone;
     }
 
     //Setters

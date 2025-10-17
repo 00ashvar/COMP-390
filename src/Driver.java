@@ -1,10 +1,6 @@
-public class Driver {
+public class Driver extends User {
 
     private int driverID;
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String phone;
     private String license;
     private String dob;
     private String streetAddress;
@@ -12,51 +8,34 @@ public class Driver {
     private String state;
     private String country;
     private String zipCode;
-    private String status;
 
     // Constructor
-    public Driver(String dFirstName,
-                  String dLastName,
-                  String dEmail,
-                  String dPhone,
-                  String dLicense,
-                  String dDOB,
-                  String dStreetAddress,
-                  String dCity,
-                  String dState,
-                  String dCounty,
-                  String dZipCode,
-                  String dStatus){
+    public Driver(String firstName,
+                  String lastName,
+                  String email,
+                  String phone,
+                  String license,
+                  String DOB,
+                  String streetAddress,
+                  String city,
+                  String state,
+                  String county,
+                  String zipCode,
+                  String status){
 
-        this.firstName = dFirstName;
-        this.lastName = dLastName;
-        this.email = dEmail;
-        this.phone = dPhone;
-        this.license = dLicense;
-        this.dob = dDOB;
-        this.streetAddress = dStreetAddress;
-        this.city = dCity;
-        this.state = dState;
-        this.country = dCounty;
-        this.zipCode = dZipCode;
-        this.status = dStatus;
+        super(firstName, lastName, email, phone, status);
+        this.license = license;
+        this.dob = DOB;
+        this.streetAddress = streetAddress;
+        this.city = city;
+        this.state = state;
+        this.country = county;
+        this.zipCode = zipCode;
     }
 
     // Getters
     public int getdId(){
         return driverID;
-    }
-    public String getdFirstName(){
-        return firstName;
-    }
-    public String getdLastName(){
-        return lastName;
-    }
-    public String getdEmail(){
-        return email;
-    }
-    public String getdPhone(){
-        return phone;
     }
     public String getdLicense(){
         return license;
@@ -79,7 +58,6 @@ public class Driver {
     public String getdZipCode(){
         return zipCode;
     }
-    public String getdStatus() { return status; }
 
     //Setters
     public void setdId(int driverID){
