@@ -2,6 +2,9 @@ public class Rider extends User{
 
     private int riderID;
 
+    // Empty Constructor
+    public Rider(){}
+
     // Constructor
     public Rider(String firstName,
                  String lastName,
@@ -12,12 +15,12 @@ public class Rider extends User{
     }
 
     // Getters
-    public int getrId(){
+    public int getId(){
         return riderID;
     }
 
     //Setters
-    public void setdId(int riderID){
+    public void setId(int riderID){
         this.riderID = riderID;
     }
 

@@ -35,7 +35,8 @@ CREATE TABLE IF NOT EXISTS car (
     ext_color TEXT,
     int_color TEXT,
     int_materials TEXT,
-    is_damaged INTEGER DEFAULT 0,
+    price REAL,
+    condition TEXT CHECK (condition IN ('fair', 'good', 'very good', 'excellent')),
     license_plate_no TEXT UNIQUE NOT NULL,
     FOREIGN KEY (driver_id) REFERENCES driver(driver_id)
 );

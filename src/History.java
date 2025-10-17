@@ -8,10 +8,16 @@ public class History {
     private String dropoffLoc;
     private Double fare;
     private String status;
+    private int driverID;
+    private String licensePlateNo;
+
+    // Empty Constructor
+    public History(){}
 
     // Constructor
     public History(Integer riderID, Integer carID, String requestedAt,
-                   String pickupLoc, String dropoffLoc, Double fare, String status) {
+                   String pickupLoc, String dropoffLoc, Double fare, String status,
+                   Integer driverID, String licensePlateNo) {
         this.riderID = riderID;
         this.carID = carID;
         this.requestedAt = requestedAt;
@@ -19,6 +25,8 @@ public class History {
         this.dropoffLoc = dropoffLoc;
         this.fare = fare;
         this.status = status;
+        this.driverID = driverID;
+        this.licensePlateNo = licensePlateNo;
     }
 
     // getters
@@ -38,18 +46,26 @@ public class History {
     public String getDropoffLoc() { return dropoffLoc; }
     public Double getFare() { return fare; }
     public String getStatus() { return status; }
+    public int getDriverID() { return driverID; }
+    public String getLicensePlateNo() { return licensePlateNo; }
+
+    // Setters
+    public void setHistoryID(int tripID) { this.tripID = tripID; }
+    public void setRequestedAt(String requestedAt) { this.requestedAt = requestedAt; }
+    public void setPickupLoc(String pickupLoc) { this.pickupLoc = pickupLoc; }
+    public void setDropoffLoc(String dropoffLoc) { this.dropoffLoc = dropoffLoc; }
+    public void setFare(Double fare) { this.fare = fare; }
+    public void setStatus(String status) { this.status = status; }
+    public void setLicensePlateNo(String licensePlateNo) { this.licensePlateNo = licensePlateNo; }
 
     // Needs validation
-    public void setRiderID(Integer driverID) {
+    public void setRiderID(Integer riderID) {
         this.riderID = riderID;
     }
-
-    // Needs validation
     public void setCarID(Integer carID) {
         this.carID = carID;
     }
-
-    public void setHistoryID(int id) { this.tripID = tripID; }
+    public void setDriverID(Integer driverID) { this.driverID = driverID; }
 
     // check Rider id is not empty
     private String validateRiderID(String rID) {
@@ -67,5 +83,14 @@ public class History {
             throw new IllegalArgumentException("Invalid carID: " + cID);
         }
         return cID;
+    }
+
+    // check Driver id is not empty
+    private String validateDriverID(String dID) {
+        //TODO check length is correct
+        if (dID == null || dID.trim().isEmpty()) {
+            throw new IllegalArgumentException("Invalid driverID: " + dID);
+        }
+        return dID;
     }
 }

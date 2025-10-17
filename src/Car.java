@@ -1,8 +1,8 @@
 import java.util.Scanner;
 public class Car {
     Driver driver;
-    Rider rider;
     private int carId;
+    private int driverId;
     private String make;
     private String model;
     private int year;
@@ -10,16 +10,20 @@ public class Car {
     private String interiorColor;
     private String licensePlate;
     private double price;
-    private String damages;
     private String condition;
     private boolean isAvailable;
 
+    // Empty Constructor
+    public Car(){}
+
     //Constructor
-    public Car(Driver driver, Rider rider, int carId, String make, String model, int year, String exteriorColor, String interiorColor, String licensePlate, double price, String damages, String condition, boolean isAvailable)
+    public Car(int carId, int driverId, Driver driver, String make, String model, int year,
+               String exteriorColor, String interiorColor, String licensePlate,
+               double price, String condition, boolean isAvailable)
     {
-        this.driver = driver;
-        this.rider = rider;
         this.carId = carId;
+        this.driverId = driverId;
+        this.driver = driver;
         this.make = make;
         this.model = model;
         this.year = year;
@@ -27,7 +31,6 @@ public class Car {
         this.interiorColor = interiorColor;
         this.licensePlate = licensePlate;
         this.price = price;
-        this.damages = damages;
         this.condition = condition;
         this.isAvailable = isAvailable;
     }
@@ -37,12 +40,12 @@ public class Car {
         System.out.println("Driver: " + driver);
         return driver;
     }
-    public Rider getRider() {
-        System.out.println( "Rider: " + rider);
-        return rider;
-    }
     public int getCarId() {
         System.out.println("Car ID: " + carId);
+        return carId;
+    }
+    public int getDriverId() {
+        System.out.println("Driver ID: " + driverId);
         return carId;
     }
     public String getMake() {
@@ -73,10 +76,6 @@ public class Car {
         System.out.println("Price: " + price);
         return price;
     }
-    public String getDamages() {
-        System.out.println("Damages: " + damages);
-        return damages;
-    }
     public String getCondition() {
         System.out.println("Condition: " + condition);
         return condition;
@@ -90,11 +89,11 @@ public class Car {
     public void setDriver(Driver driver) {
         this.driver = driver;
     }
-    public void setRider(Rider rider) {
-        this.rider = rider;
-    }
     public void setCarId(int carId) {
         this.carId = carId;
+    }
+    public void setDriverId(int driverId) {
+        this.driverId = driverId;
     }
     public void setMake(String make) {
         this.make = make;
@@ -116,9 +115,6 @@ public class Car {
     }
     public void setPrice(double price) {
         this.price = price;
-    }
-    public void setDamages(String damages) {
-        this.damages = damages;
     }
     public void setCondition(String condition) {
         this.condition = condition;

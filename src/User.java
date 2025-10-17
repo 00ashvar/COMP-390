@@ -5,6 +5,9 @@ public abstract class User {
     private String phone;
     private String status;
 
+    // Empty Constructor
+    public User(){}
+
     // Constructor
     public User(String firstName,
                 String lastName,
@@ -32,4 +35,18 @@ public abstract class User {
         return phone;
     }
     public String getStatus() { return status; }
+
+    public void setFirstName(String firstName){
+        this.firstName = firstName;
+    }
+    public void setLastName(String lastName){
+        this.lastName = lastName;
+    }
+    public void setEmail(String email){
+        this.email = email;
+    }
+    public void setPhone(String phone){
+        this.phone = phone;
+    }
+    public void setStatus(String status) { this.status = status; }
 }

@@ -40,7 +40,9 @@ public class HistoryDAOSQLite implements HistoryDAO{
     @Override
     public Optional<History> findById(int tripID) throws Exception {
         // SQL query statement for easy usage and maintenance
-        String SELECT_HISTORY_BY_ID_SQL = "SELECT * FROM history WHERE trip_id = ?";
+        String SELECT_HISTORY_BY_ID_SQL = "SELECT h.*, c.driver_id, c.license_plate_no " +
+                "FROM history h JOIN car c ON h.car_id = c.car_id " +
+                "WHERE trip_id = ?";
         try(Connection c = DatabaseManager.get();
             PreparedStatement ps = c.prepareStatement(SELECT_HISTORY_BY_ID_SQL)) {
             // Placeholder ? replaced by actual ID
@@ -56,7 +58,9 @@ public class HistoryDAOSQLite implements HistoryDAO{
                         rs.getString("pickup_loc"),
                         rs.getString("dropoff_loc"),
                         rs.getDouble("fare_total"),
-                        rs.getString("status")
+                        rs.getString("status"),
+                        rs.getInt("driver_id"),
+                        rs.getString("license_plate_no")
                 );
                 h.setHistoryID(rs.getInt("trip_id"));
                 return Optional.of(h);
@@ -68,7 +72,9 @@ public class HistoryDAOSQLite implements HistoryDAO{
     @Override
     public List<History> findAll() throws Exception {
         // SQL query statement for easy usage and maintenance
-        String SELECT_ALL_HISTORY_SQL = "SELECT * FROM history ORDER BY trip_id";
+        String SELECT_ALL_HISTORY_SQL = "SELECT h.*, c.driver_id, c.license_plate_no " +
+                "FROM history h JOIN car c ON h.car_id = c.car_id " +
+                "ORDER BY trip_id";
         try(Connection c = DatabaseManager.get();
             PreparedStatement ps = c.prepareStatement(SELECT_ALL_HISTORY_SQL);
             ResultSet rs = ps.executeQuery()) {
@@ -83,7 +89,9 @@ public class HistoryDAOSQLite implements HistoryDAO{
                         rs.getString("pickup_loc"),
                         rs.getString("dropoff_loc"),
                         rs.getDouble("fare_total"),
-                        rs.getString("status")
+                        rs.getString("status"),
+                        rs.getInt("driver_id"),
+                        rs.getString("license_plate_no")
                 );
                 h.setHistoryID(rs.getInt("trip_id"));
                 out.add(h);
@@ -96,7 +104,9 @@ public class HistoryDAOSQLite implements HistoryDAO{
     @Override
     public List<History> findRiderHistory(int riderID) throws Exception {
         // SQL query statement for easy usage and maintenance
-        String SELECT_ALL_RIDER_HISTORY_SQL = "SELECT * FROM history WHERE rider_id = ?";
+        String SELECT_ALL_RIDER_HISTORY_SQL = "SELECT h.*, c.driver_id, c.license_plate_no " +
+                "FROM history h JOIN car c ON h.car_id = c.car_id " +
+                "WHERE rider_id = ?";
         try(Connection c = DatabaseManager.get();
             PreparedStatement ps = c.prepareStatement(SELECT_ALL_RIDER_HISTORY_SQL)) {
             // Placeholder ? replaced by actual ID
@@ -112,7 +122,9 @@ public class HistoryDAOSQLite implements HistoryDAO{
                             rs.getString("pickup_loc"),
                             rs.getString("dropoff_loc"),
                             rs.getDouble("fare_total"),
-                            rs.getString("status")
+                            rs.getString("status"),
+                            rs.getInt("driver_id"),
+                            rs.getString("license_plate_no")
                     );
                     h.setHistoryID(rs.getInt("trip_id"));
                     out.add(h);
@@ -124,7 +136,7 @@ public class HistoryDAOSQLite implements HistoryDAO{
 
     // Pulls all trips for single driver from database
     @Override
-    public List<History> findDriverHistory(int riderID) throws Exception {
+    public List<History> findDriverHistory(int driverID) throws Exception {
         // SQL query statement for easy usage and maintenance
         String SELECT_ALL_DRIVER_HISTORY_SQL = "SELECT h.*, c.driver_id, c.license_plate_no " +
                 "FROM history h JOIN car c ON h.car_id = c.car_id " +
@@ -132,7 +144,7 @@ public class HistoryDAOSQLite implements HistoryDAO{
         try(Connection c = DatabaseManager.get();
             PreparedStatement ps = c.prepareStatement(SELECT_ALL_DRIVER_HISTORY_SQL)) {
             // Placeholder ? replaced by actual ID
-            ps.setInt(1, riderID);
+            ps.setInt(1, driverID);
             try(ResultSet rs = ps.executeQuery()) {
                 List<History> out = new ArrayList<>();
                 // Loop through all rows in result set (each row = 1 trip)
@@ -144,7 +156,9 @@ public class HistoryDAOSQLite implements HistoryDAO{
                             rs.getString("pickup_loc"),
                             rs.getString("dropoff_loc"),
                             rs.getDouble("fare_total"),
-                            rs.getString("status")
+                            rs.getString("status"),
+                            rs.getInt("driver_id"),
+                            rs.getString("license_plate_no")
                     );
                     h.setHistoryID(rs.getInt("trip_id"));
                     out.add(h);

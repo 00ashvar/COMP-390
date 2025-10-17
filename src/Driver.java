@@ -9,6 +9,9 @@ public class Driver extends User {
     private String country;
     private String zipCode;
 
+    // Empty Constructor
+    public Driver(){}
+
     // Constructor
     public Driver(String firstName,
                   String lastName,
@@ -34,34 +37,53 @@ public class Driver extends User {
     }
 
     // Getters
-    public int getdId(){
+    public int getId(){
         return driverID;
     }
-    public String getdLicense(){
+    public String getLicense(){
         return license;
     }
     public String getDob(){
         return dob;
     }
-    public String getdStreetAddress(){
+    public String getStreetAddress(){
         return streetAddress;
     }
-    public String getdCity(){
+    public String getCity(){
         return city;
     }
-    public String getdState(){
+    public String getState(){
         return state;
     }
-    public String getdCountry(){
+    public String getCountry(){
         return country;
     }
-    public String getdZipCode(){
+    public String getZipCode(){
         return zipCode;
     }
 
     //Setters
-    public void setdId(int driverID){
+    public void setId(int driverID){
         this.driverID = driverID;
+    }
+    public void setLicense(String license){
+        this.license = license;
+    }
+    public void setDob(String dob){
+        this.dob = dob;
+    }
+    public void setStreetAddress(String streetAddress){ this.streetAddress = streetAddress; }
+    public void setCity(String city){
+        this.city = city;
+    }
+    public void setState(String state){
+        this.state = state;
+    }
+    public void setCountry(String country){
+        this.country = country;
+    }
+    public void setZipCode(String zipCode){
+        this.zipCode = zipCode;
     }
 
 }

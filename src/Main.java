@@ -7,6 +7,8 @@ public class Main {
         String schemaFile = "schema.sql";
         String databaseURL = "jdbc:sqlite:rideshare.db";
 
+        // establish connection through jdbc (.jar file in lib)
+        // if no such database is found it will create locally for you, otherwise connect to db
         try (Connection c = DriverManager.getConnection(databaseURL);
              Statement s = c.createStatement()) {
             // Read the entire schema.sql file into a String

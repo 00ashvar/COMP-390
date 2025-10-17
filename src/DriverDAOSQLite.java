@@ -25,19 +25,19 @@ class DriverDAOSQLite implements DriverDAO{
             ps.setString(2, d.getLastName());
             ps.setString(3, d.getEmail());
             ps.setString(4, d.getPhone());
-            ps.setString(5, d.getdLicense());
+            ps.setString(5, d.getLicense());
             ps.setString(6, d.getDob());
-            ps.setString(7, d.getdStreetAddress());
-            ps.setString(8, d.getdCity());
-            ps.setString(9, d.getdState());
-            ps.setString(10, d.getdCountry());
-            ps.setString(11, d.getdZipCode());
+            ps.setString(7, d.getStreetAddress());
+            ps.setString(8, d.getCity());
+            ps.setString(9, d.getState());
+            ps.setString(10, d.getCountry());
+            ps.setString(11, d.getZipCode());
             ps.setString(12, d.getStatus());
             ps.executeUpdate();
             try (ResultSet rs = ps.getGeneratedKeys()) {
                 // Pull driver_id from database (auto-generated) and store in Driver object for reference
                 int newDriverID = rs.next() ? rs.getInt(1) : 0;
-                d.setdId(newDriverID);
+                d.setId(newDriverID);
                 return newDriverID;
             }
         }
@@ -70,7 +70,7 @@ class DriverDAOSQLite implements DriverDAO{
                         rs.getString("zip_code"),
                         rs.getString("status")
                 );
-                d.setdId(rs.getInt("driver_id"));
+                d.setId(rs.getInt("driver_id"));
                 return Optional.of(d);
             }
         }
@@ -102,7 +102,7 @@ class DriverDAOSQLite implements DriverDAO{
                         rs.getString("zip_code"),
                         rs.getString("status")
                 );
-                d.setdId(rs.getInt("driver_id"));
+                d.setId(rs.getInt("driver_id"));
                 out.add(d);
             }
             return out;
@@ -124,15 +124,15 @@ class DriverDAOSQLite implements DriverDAO{
             ps.setString(2, d.getLastName());
             ps.setString(3, d.getEmail());
             ps.setString(4, d.getPhone());
-            ps.setString(5, d.getdLicense());
+            ps.setString(5, d.getLicense());
             ps.setString(6, d.getDob());
-            ps.setString(7, d.getdStreetAddress());
-            ps.setString(8, d.getdCity());
-            ps.setString(9, d.getdState());
-            ps.setString(10, d.getdCountry());
-            ps.setString(11, d.getdZipCode());
+            ps.setString(7, d.getStreetAddress());
+            ps.setString(8, d.getCity());
+            ps.setString(9, d.getState());
+            ps.setString(10, d.getCountry());
+            ps.setString(11, d.getZipCode());
             ps.setString(12, d.getStatus());
-            ps.setInt(13, d.getdId());
+            ps.setInt(13, d.getId());
             return ps.executeUpdate();
         }
     }
