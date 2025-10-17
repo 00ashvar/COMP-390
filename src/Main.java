@@ -1,4 +1,3 @@
-import java.io.FileReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.*;
@@ -8,17 +7,15 @@ public class Main {
         String schemaFile = "schema.sql";
         String databaseURL = "jdbc:sqlite:rideshare.db";
 
-        try (Connection conn = DriverManager.getConnection(databaseURL);
-             Statement stmt = conn.createStatement()) {
-
+        try (Connection c = DriverManager.getConnection(databaseURL);
+             Statement s = c.createStatement()) {
             // Read the entire schema.sql file into a String
             String sql = Files.readString(Paths.get(schemaFile));
-
             // Execute each statement separated by semicolons
             for (String statement : sql.split(";")) {
                 String trimmed = statement.trim();
                 if (!trimmed.isEmpty()) {
-                    stmt.execute(trimmed + ";");
+                    s.execute(trimmed + ";");
                 }
             }
 
@@ -29,7 +26,7 @@ public class Main {
 
 
 
-        //  history implementayion
+        //  history implementation
         //HistoryDAO history = new HistoryDAO();
 
         // Manager class executes history

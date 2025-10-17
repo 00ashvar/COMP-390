@@ -21,10 +21,10 @@ class DriverDAOSQLite implements DriverDAO{
             PreparedStatement ps = c.prepareStatement(INSERT_DRIVER_SQL, Statement.RETURN_GENERATED_KEYS)) {
 
             // Placeholder ? get filled with values from Driver object
-            ps.setString(1, d.getdFirstName());
-            ps.setString(2, d.getdLastName());
-            ps.setString(3, d.getdEmail());
-            ps.setString(4, d.getdPhone());
+            ps.setString(1, d.getFirstName());
+            ps.setString(2, d.getLastName());
+            ps.setString(3, d.getEmail());
+            ps.setString(4, d.getPhone());
             ps.setString(5, d.getdLicense());
             ps.setString(6, d.getDob());
             ps.setString(7, d.getdStreetAddress());
@@ -32,7 +32,7 @@ class DriverDAOSQLite implements DriverDAO{
             ps.setString(9, d.getdState());
             ps.setString(10, d.getdCountry());
             ps.setString(11, d.getdZipCode());
-            ps.setString(12, d.getdStatus());
+            ps.setString(12, d.getStatus());
             ps.executeUpdate();
             try (ResultSet rs = ps.getGeneratedKeys()) {
                 // Pull driver_id from database (auto-generated) and store in Driver object for reference
@@ -120,10 +120,10 @@ class DriverDAOSQLite implements DriverDAO{
             PreparedStatement ps = c.prepareStatement(UPDATE_DRIVER_SQL)) {
 
             // Placeholder ? get updated with new values
-            ps.setString(1, d.getdFirstName());
-            ps.setString(2, d.getdLastName());
-            ps.setString(3, d.getdEmail());
-            ps.setString(4, d.getdPhone());
+            ps.setString(1, d.getFirstName());
+            ps.setString(2, d.getLastName());
+            ps.setString(3, d.getEmail());
+            ps.setString(4, d.getPhone());
             ps.setString(5, d.getdLicense());
             ps.setString(6, d.getDob());
             ps.setString(7, d.getdStreetAddress());
@@ -131,7 +131,7 @@ class DriverDAOSQLite implements DriverDAO{
             ps.setString(9, d.getdState());
             ps.setString(10, d.getdCountry());
             ps.setString(11, d.getdZipCode());
-            ps.setString(12, d.getdStatus());
+            ps.setString(12, d.getStatus());
             ps.setInt(13, d.getdId());
             return ps.executeUpdate();
         }
