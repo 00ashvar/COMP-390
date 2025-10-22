@@ -105,7 +105,6 @@ public class TestingHere {
         System.out.println("Calculated fare: $" + String.format("%.2f", fare));
     
         assertEquals(27.25, fare, 0.01, "Fare should be $27.25");
-    
         assertTrue(fare >= 5.00, "Fare should meet $5 minimum");
     }
 
