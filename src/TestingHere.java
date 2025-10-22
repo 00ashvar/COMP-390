@@ -94,5 +94,19 @@ public class TestingHere {
         int driver_id = dao.insert(d);
         assertTrue(driver_id > 0);
     }
+    
+    @Test
+    void testFareCalculator() {
+        System.out.println("\n=== Testing FareCalculator ===");
+    
+        double fare = FareCalculator.calculateStandardFare(10.0, 25);
+    
+        System.out.println("Trip: 10 miles, 25 minutes");
+        System.out.println("Calculated fare: $" + String.format("%.2f", fare));
+    
+        assertEquals(27.25, fare, 0.01, "Fare should be $27.25");
+    
+        assertTrue(fare >= 5.00, "Fare should meet $5 minimum");
+    }
 
 }
