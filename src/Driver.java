@@ -86,4 +86,11 @@ public class Driver extends User {
         this.zipCode = zipCode;
     }
 
+    @Override
+    public String toString() {
+        return "Driver {" +
+                "ID: " + driverID +
+                "Name: " + getFirstName() + getLastName();
+    }
+
 }

@@ -3,6 +3,7 @@ import org.junit.jupiter.api.Test;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -93,6 +94,22 @@ public class TestingHere {
 
         int driver_id = dao.insert(d);
         assertTrue(driver_id > 0);
+        d.setId(driver_id);
+
+        d.setLicense("S67890");
+        dao.update(d);
+
+        Optional<Driver> d2 = dao.findById(driver_id);
+        assertTrue(d2.isPresent());
+        if(d2.isPresent()){
+            d = d2.get();
+        }
+
+        assertEquals("S67890", d.getLicense());
+
+        dao.delete(driver_id);
+        Optional<Driver> d3 = dao.findById(driver_id);
+        assertFalse(d3.isPresent());
     }
     
     @Test
