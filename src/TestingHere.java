@@ -1,10 +1,7 @@
 import org.junit.jupiter.api.Test;
-
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TestingHere {
@@ -111,6 +108,8 @@ public class TestingHere {
         dao.delete(driver_id);
         Optional<Driver> d3 = dao.findById(driver_id);
         assertFalse(d3.isPresent());
+
+        assertTrue(dao.findAll().isEmpty());
     }
 
 

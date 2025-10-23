@@ -26,12 +26,12 @@ public class Rider extends User{
 
     @Override
     public String toString() {
-        return "Driver {" +
+        return "Rider { " +
                 "ID: " + riderID + "\n" +
                 "Name: " + getFirstName() + " " + getLastName()+ "\n" +
                 "Email: " + getEmail() + "\n" +
                 "Phone #: " + getPhone() + "\n" +
-                "Status: " + getStatus();
+                "Status: " + getStatus() + " }";
     }
 
 }
