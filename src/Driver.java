@@ -96,7 +96,7 @@ public class Driver extends User {
                 "License #: " + getLicense() + "\n" +
                 "DOB: " + getDob() + "\n" +
                 "Address: " + getStreetAddress() + " " + getCity() + ", " +
-                getState() + " " + getZipCode() + " " + getCountry()g+
+                getState() + " " + getZipCode() + " " + getCountry()+
                 "Status: " + getStatus();
     }
 
