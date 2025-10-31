@@ -8,7 +8,7 @@ import java.util.Optional;
  * This class implemets the contract with PaymentDAO and allows for data storage and retrieval.
  */
 public class PaymentDAOSQLite implements PaymentDAO {
-    private final String PATH = "jdbc:sqlite:sqlite.db";
+
 
     @Override
     public int insert(Payment p) throws Exception{

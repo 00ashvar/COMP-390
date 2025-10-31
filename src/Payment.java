@@ -4,8 +4,6 @@ public class Payment {
     private int paymentID;
     private int tripID;
     private String paymentMethod;
-    // Should it money be float od double?
-    // ^ agree should be a double
     private double amountPaid;
     private String status;
     private String paymentDate;

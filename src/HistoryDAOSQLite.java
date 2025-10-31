@@ -6,10 +6,12 @@ import java.util.Optional;
 // This class handles interactions between our program and our database.
 // DAOs contain all the database specific code that allows the application
 // to interact with data without dealing with how it's stored or retrieved.
+
 public class HistoryDAOSQLite implements HistoryDAO{
     // Adds a new Trip record/row to the database
     // trip_id is automatically generate by the database so it's not included
     // in the INSERT statement, but added to the History object for the application after.
+
     @Override
     public int insert(History h) throws Exception {
         // SQL query statement for easy usage and maintenance
