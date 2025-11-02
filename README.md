@@ -123,7 +123,7 @@
 - **Payment Management:** Responsible for all financial transitions which includes securing payment method, calculating final fares, handling payment processing, managing refunds and generating receipts.
 - **Ride/Trip Management:** Responsible for the entire lifecycle of a ride or trip. From initial request processing, driver accepting request, real-time location tracking, state transitions (eg. from request -> accepted -> in route -> dropped off) and confirmation of final trip destination from rider.
 
-- **Application Services:**
+**Application Services:**
 - **Register Profile:** Handles the creation of a new user (rider or driver). Records essential information such as name, contact info, and credentials.
 - **Register Phone:** Adds or updates the user’s contact info.
 - **Set Current Location:** Handle the geocoding and translating user inputs like addresses into standard geo coordinates.
@@ -135,7 +135,7 @@
 - **Register Payment Methods:** Responsible for associating payment info to a user profile, as well as, securely tokenize, validate and safely store the info.
 - **Rate Rider/Driver:** Collects post trip feedback and ratings.
 
-- **Utility Services:**
+**Utility Services:**
 - **User & Application Storage:** Responsible for the persistent data and handles the direct interaction with the database.
 - **Data Encryption:** This service is dedicated to securing data in transit (via TLS) and at rest (via SHA-2). Giving special attention to payment info and PII.
 - **MFA (Multi-Factor Auth):** A security utility that integrates with Profile Management to enforce and manage secondary verification factors during logins or requests of sensitive nature.
