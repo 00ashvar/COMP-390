@@ -143,8 +143,9 @@
 
 <summary><b>🖼️ UI Mockups / Screenshots</b></summary>
 
-![UI Mockup 1](images/ui_mockup1.png)
-![UI Mockup 2](images/ui_mockup2.png)
+![UI Login Mockup](images/ui_mockup_login.png)
+![UI Homepage Mockup](images/ui_mockup_home.png)
+![UI Profile Mockup](images/ui_mockup_profile.png)
 
 **Description:**  
 Describe the visual layout, navigation flow, and design rationale.
@@ -166,7 +167,66 @@ Before running the project, make sure you have:
    git clone https://github.com/00ashvar/COMP-390.git
    cd COMP-390
    ```
-   to be continued
+2. **Open the project**
+    - Launch your preferred IDE (e.g. **IntelliJ IDEA**).
+    - Select **"Open Project"** and navigate to the cloned folder.
+    - Ensure that the `sqlite-jdbc.jar` file is inside the `/lib` directory.
+    - Add the JAR to your project classpath if it isn’t linked automatically.
+
+3. **Set up the database**
+    - The SQLite database file (e.g., `rideshare.db`) will be created locally automatically on first run.
+    - The code will automatically execute schema creation when launched (`schema.sql`).
+
+4. **Run the program**
+    - Locate and run the main entry point:
+      ```bash
+      RideshareApp.java
+      ```  
+    - The **Swing UI** should open automatically once the database connection is established.
+
+### 📁 Project File Structure 
+
+Below is the recommended layout for the project repository:
+
+```bash
+│ 
+│   .gitignore
+│   README.md
+│   rideshare.db
+│   schema.sql
+│           
+├───images
+│       architecture_diagram.png
+│       case_diagram.png
+│       context_diagram.png
+│       sequence_diagram_1.png
+│       sequence_diagram_2.png
+│       
+├───lib
+│       sqlite-jdbc-3.50.3.0.jar
+│                   
+└───src
+│       Car.java
+│       COMP-390.iml
+│       DatabaseManager.java
+│       Driver.java
+│       DriverDAO.java
+│       DriverDAOSQLite.java
+│       FareCalculator.java
+│       History.java
+│       HistoryDAO.java
+│       HistoryDAOSQLite.java
+│       New_code.java
+│       Payment.java
+│       PaymentDAO.java
+│       PaymentDAOSQLite.java
+│       Rider.java
+│       RiderDAO.java
+│       RiderDAOSQLite.java
+│       RideshareApp.java
+│       TestingHere.java
+│       User.java
+```
 
 ---
 
@@ -180,6 +240,15 @@ Before running the project, make sure you have:
 | **Database Connectivity** | JDBC | Standard Java API for connecting and executing SQL commands in SQLite |
 | **Build & IDE** | IntelliJ IDEA | Development environment used to compile and run the project |
 | **Version Control** | Git & GitHub | Used for version tracking and collaborative documentation |
+
+---
+
+**Notes**
+- The project runs *entirely locally*; no external server or network connection required.
+- All data is stored in a single SQLite database file (e.g., `rideshare.db`) inside the project directory.
+- `sqlite-jdbc.jar` must be included in the project’s `/lib` folder and referenced in the classpath.
+
+---
 
 ## Team & Credits
 

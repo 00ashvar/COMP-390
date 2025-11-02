@@ -139,6 +139,7 @@ public class RideshareApp extends JFrame {
         loginButton.addActionListener(e -> {
             if (userTF.getText().equals("user") &&
                     new String(passPF.getPassword()).equals("password")) {
+                error.setText(" ");
                 c1.show(cards, HOME);
             } else {
                 error.setText("Invalid username or password");
