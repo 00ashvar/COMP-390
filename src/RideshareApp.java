@@ -1,11 +1,9 @@
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
+import java.awt.event.FocusEvent;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class RideshareApp extends JFrame {
 
@@ -34,15 +32,15 @@ public class RideshareApp extends JFrame {
         JPanel histPage = buildHistoryPage();
 
         // add pages to CardLayout with our keys (see GeeksforGeeks tutorial "1", "2" ... cards)
-        cards.add(loginPage, LOGIN);
+        //cards.add(loginPage, LOGIN);
         cards.add(homePage, HOME);
-        cards.add(bookPage, BOOK);
+        //cards.add(bookPage, BOOK);
         cards.add(profPage, PROF);
-        cards.add(histPage, HIST);
+        //cards.add(histPage, HIST);
 
         setContentPane(cards);
 
-        c1.show(cards, LOGIN);
+        c1.show(cards, PROF);
 
     }
 
@@ -51,121 +49,213 @@ public class RideshareApp extends JFrame {
     }
 
     private JPanel buildHomePage() {
-        return null;
+        JPanel homePanel = new JPanel();
+
+        JPanel p = new JPanel(new BorderLayout(8,10));
+        p.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+
+        JLabel title = new JLabel("Welcome to Rider Share");
+        title.setFont(title.getFont().deriveFont(Font.BOLD, 16f));
+        title.setHorizontalAlignment(JLabel.CENTER);
+        p.add(title, BorderLayout.NORTH);
+
+
+        // center info (I need to think how to organize this page, but this will do for summition)
+        JPanel summary = new JPanel(new GridLayout(0,1,3,3));
+        summary.add(new JLabel("Something goes here"));
+        summary.add(new JLabel("Something goes here"));
+        p.add(summary, BorderLayout.WEST);
+
+        // add bottoms
+        JPanel bottons = new  JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JButton reviewProfile = new JButton("Review Profile");
+        bottons.add(reviewProfile);
+        // add more bottoms here
+
+        // change to other cards for demostrations
+        JButton showPii = new JButton("Show Profile window");
+        showPii.addActionListener(e -> c1.show(cards,PROF));
+        bottons.add(showPii);
+
+        p.add(bottons, BorderLayout.SOUTH);
+
+        return p;
     }
 
     private JPanel buildBookingPage() {
         return null;
     }
 
+    // a helper to set text gray & clear on focus, then restore if empty
+    private void textHelper(JTextField tf, String placeHolder){
+        tf.setText(placeHolder);
+        tf.setForeground(Color.GRAY);
+        tf.addFocusListener(new java.awt.event.FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent event) {
+                if (tf.getText().equals(placeHolder)){
+                    tf.setText("");
+                    tf.setForeground(Color.BLACK);
+                }
+            }
+            @Override
+            public void focusLost(FocusEvent event){
+                if (tf.getText().isEmpty()){
+                    tf.setForeground(Color.GRAY);
+                    tf.setText(placeHolder);
+                }
+            }
+        });
+    }
+
+    private int addRowHelper(JPanel form, GridBagConstraints gbc, int row, String labelText, JTextField field) {
+        gbc.gridx = 0;
+        gbc.gridy = row;
+        gbc.weightx = 0;
+        gbc.fill = GridBagConstraints.NONE;
+        form.add(new JLabel(labelText), gbc);
+
+        gbc.gridx = 1;
+        gbc.weightx = 1.0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        form.add(field, gbc);
+
+        return row + 1;
+    }
     /**
      * Builds the main Profile Page panel with nested layouts for perfect alignment.
      */
     JPanel buildProfilePage() {
 
-        // --- FINAL ALIGNMENT WRAPPER ---
-        // Ensures the whole form block is pushed to the left edge of the window.
-        JPanel JP_final_aligner = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        // needed to count rows in the grid
+        int prow = 0;
+        int adrow = 0;
 
-        // --- OUTER FORM CONTAINER ---
-        JPanel JP_page_container = new JPanel();
-        JP_page_container.setLayout(new BoxLayout(JP_page_container, BoxLayout.Y_AXIS));
-        JP_page_container.setAlignmentX(Component.LEFT_ALIGNMENT);
+        // BorderLayout to help with simetry
+        JPanel profilePage = new JPanel(new BorderLayout(8,8));
+        profilePage.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 
-        // Add padding around the entire form for better aesthetics
-        JP_page_container.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        // better title
+        JLabel title = new JLabel("<html><h1>Profile</h1></html>");
+        profilePage.add(title, BorderLayout.NORTH);
 
-        // --- FIELD ROWS ---
-        JPanel nameFiels = createFieldRow("Full Name:", new JTextField(15));
-        JPanel emailFiels = createFieldRow("Email:", new JTextField(15));
-        JPanel phonoFiels = createFieldRow("Phone Number:", new JTextField(15));
-        JPanel licenseFiels = createFieldRow("Driver's License:", new JTextField(15));
-        JPanel DOBFiels = createFieldRow("Date of Birth:", new JTextField(15));
-
-        // --- ADDRESS GROUP CONTAINER ---
-        JPanel JP_address_grp = new JPanel();
-        JP_address_grp.setLayout(new BoxLayout(JP_address_grp, BoxLayout.Y_AXIS));
-        JP_address_grp.setAlignmentX(Component.LEFT_ALIGNMENT);
-
-        // Define the Titled Border for the address group.
-        // We will remove the Etched border for a cleaner look.
-        Border groupBorder = BorderFactory.createTitledBorder(
-                BorderFactory.createLineBorder(Color.GRAY, 1), // Simple line border
-                "Address Details" // Title of the group
-        );
-        JP_address_grp.setBorder(groupBorder);
-
-        // The TitledBorder adds padding. We need to match this padding
-        // inside the address group to keep text fields aligned.
-
-        JPanel streetFiels = createFieldRow("Street Address:", new JTextField(15));
-        JPanel cityFiels = createFieldRow("City:", new JTextField(15));
-        JPanel stateFiels = createFieldRow("State:", new JTextField(15));
-        JPanel countryFiels = createFieldRow("Country:", new JTextField(15));
-        JPanel zipFiels = createFieldRow("Zip Code:", new JTextField(15));
+        // Constrain the text boxes from being too tall
+        JPanel gridPii = new JPanel(new GridBagLayout());
+        GridBagConstraints gbc1 = new GridBagConstraints();
+        gbc1.insets = new Insets(4,6,4,6);
+        gbc1.anchor = GridBagConstraints.WEST;
+        gbc1.fill = GridBagConstraints.HORIZONTAL;
 
 
-        // --- ASSEMBLE THE PAGE ---
+        // add labes, text boxes & rows
+        // row 0
+        //JLabel nameL = new JLabel("Full Name:");
+        JTextField nameT =  new JTextField();
+        nameT.setColumns(20);
+        textHelper(nameT, "Ride Share");
+        prow = addRowHelper(gridPii, gbc1, prow,"Full Name:", nameT);
 
-        // Add non-address fields directly to the main container
-        JP_page_container.add(nameFiels);
-        JP_page_container.add(emailFiels);
-        JP_page_container.add(phonoFiels);
-        JP_page_container.add(licenseFiels);
-        JP_page_container.add(DOBFiels);
 
-        // Add a vertical strut for space
-        JP_page_container.add(Box.createVerticalStrut(25));
 
-        // Add the Address fields to the group container
-        JP_address_grp.add(streetFiels);
-        JP_address_grp.add(cityFiels);
-        JP_address_grp.add(stateFiels);
-        JP_address_grp.add(countryFiels);
-        JP_address_grp.add(zipFiels);
+        // row 1
+        //JLabel emailL = new JLabel("Email:");
+        JTextField emailT = new JTextField();
+        emailT.setColumns(11);
+        textHelper(emailT, "rideshare@bridgew.com");
+        prow = addRowHelper(gridPii,gbc1,prow, "Email:",emailT);
 
-        // Add the completed group to the main container
-        JP_page_container.add(JP_address_grp);
 
-        // Add a Save button
-        JButton saveButton = new JButton("Save Profile");
+        // row 2
+        //JLabel phoneL = new JLabel("Phone number:");
+        JTextField phoneT = new JTextField();
+        phoneT.setColumns(11);
+        textHelper(phoneT, "111-000-1111");
+        prow = addRowHelper(gridPii, gbc1, prow, "Phone Number:", phoneT);
 
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        buttonPanel.add(saveButton);
-        buttonPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        // row 3
+        //JLabel licenseL = new JLabel("License Plate:");
+        JTextField licenseT = new JTextField();
+        licenseT.setColumns(11);
+        textHelper(licenseT, "ABC-123");
+        prow = addRowHelper(gridPii, gbc1, prow, "License Plate:", licenseT);
 
-        JP_page_container.add(Box.createVerticalStrut(20));
-        JP_page_container.add(buttonPanel);
+        // row 4
+        //JLabel dobL = new JLabel("Date of Birth:");
+        JTextField dobT = new JTextField();
+        dobT.setColumns(11);
+        textHelper(dobT, "YYYY-MM-DD");
+        prow = addRowHelper(gridPii, gbc1, prow, "Date of Birth:", dobT);
 
-        // Add glue to push components to the top
-        JP_page_container.add(Box.createVerticalGlue());
 
-        // Add the fully constructed form to the FlowLayout wrapper
-        JP_final_aligner.add(JP_page_container);
+        JPanel gridAddr = new JPanel(new GridBagLayout());
+        GridBagConstraints gbc2 = new GridBagConstraints();
+        gbc2.insets = new Insets(4,6,4,6);
+        gbc2.anchor = GridBagConstraints.WEST;
+        gbc2.fill = GridBagConstraints.HORIZONTAL;
 
-        // Return the final wrapper
-        return JP_final_aligner;
-    }
 
-    /**
-     * Utility method to create a consistent field row (Label + TextField).
-     */
-    private JPanel createFieldRow(String labelText, JTextField textField) {
-        JPanel rowPanel = new JPanel(new BorderLayout());
+        // address info labels and text boxes
+        // row 1
+        //JLabel streetL = new JLabel("Street:");
+        JTextField streetT = new JTextField();
+        streetT.setColumns(15);
+        textHelper(streetT, "123 Plymouth St");
+        adrow = addRowHelper(gridAddr, gbc2, adrow, "Street:", streetT);
 
-        JLabel label = new JLabel(labelText);
+        // row 2
+        //JLabel cityL = new JLabel("City:");
+        JTextField cityT = new JTextField();
+        cityT.setColumns(11);
+        textHelper(cityT, "Bridgewater");
+        adrow = addRowHelper(gridAddr, gbc2, adrow, "City:", cityT);
 
-        // Set the fixed width for the label to ensure columnar alignment
-        label.setPreferredSize(new Dimension(150, label.getPreferredSize().height));
+        //row 3
+        //JLabel stateL = new JLabel("State:");
+        JTextField stateT = new JTextField();
+        stateT.setColumns(9);
+        textHelper(stateT, "MA");
+        adrow = addRowHelper(gridAddr, gbc2, adrow, "State:", stateT);
 
-        // Add horizontal strut (padding)
-        rowPanel.add(label, BorderLayout.WEST);
+        // row 4
+        //JLabel countryL = new JLabel("Country:");
+        JTextField countryT = new JTextField();
+        countryT.setColumns(8);
+        textHelper(countryT, "USA");
+        adrow = addRowHelper(gridAddr, gbc2, adrow, "Country:", countryT);
 
-        rowPanel.add(textField, BorderLayout.CENTER);
+        // row 5
+        //JLabel zipL = new JLabel("ZIP Code:");
+        JTextField zipT = new JTextField();
+        zipT.setColumns(8);
+        textHelper(zipT, "01011");
+        adrow = addRowHelper(gridAddr, gbc2, adrow, "ZIP Code:", zipT);
 
-        rowPanel.setMaximumSize(rowPanel.getPreferredSize());
 
-        return rowPanel;
+
+        // add Panel and addrPanel to center side-by-side
+        JPanel center = new JPanel(new GridLayout(1,2,12,12));
+        center.add(gridPii);
+        center.add(gridAddr);
+        profilePage.add(center,BorderLayout.CENTER);
+
+        System.out.println("info grid: " + gridPii.getLayout());
+        System.out.println("addr grid: " + gridAddr.getLayout());
+        // bottoms
+        JButton saveButton = new JButton("Save");
+        saveButton.addActionListener(event -> {
+            //TODO I need to implement the storing info part
+
+            // Go to the home card
+            c1.show(cards, HOME);
+        });
+
+        // set bottom to the lower-right of the frame
+        JPanel bottonPossition = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        bottonPossition.add(saveButton);
+        profilePage.add(bottonPossition, BorderLayout.SOUTH);
+
+        return profilePage;
+
     }
 
     private JPanel buildHistoryPage() {
@@ -195,8 +285,12 @@ public class RideshareApp extends JFrame {
             System.out.println("Error loading schema: " + e.getMessage());
         }
 
-        RideshareApp app = new RideshareApp();
-        app.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        app.setVisible(true);
+//      app.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        SwingUtilities.invokeLater(() ->{
+            RideshareApp app = new RideshareApp();
+            app.setVisible(true);
+        });
+
     }
 }
