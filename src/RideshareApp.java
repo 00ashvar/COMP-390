@@ -257,7 +257,13 @@ public class RideshareApp extends JFrame {
     profileButton.addActionListener(e -> c1.show(cards, PROF));
 
     JButton logoutButton = new JButton("Log Out");
-    logoutButton.addActionListener(e -> c1.show(cards, LOGIN));
+    logoutButton.addActionListener(e -> {
+        Component loginPage = cards.getComponent(0);
+        if (loginPage instanceof JPanel) {
+            resetLoginFields((JPanel) loginPage);
+        }
+        c1.show(cards, LOGIN);
+    });
 
     buttonsPanel.add(bookRideButton);
     buttonsPanel.add(historyButton);
@@ -269,6 +275,27 @@ public class RideshareApp extends JFrame {
     return homePanel;
     
     }
+//helper method to reset login fields on logout
+private void resetLoginFields(JPanel panel){
+    for (Component comp : panel.getComponents()){
+        if (comp instanceof JTextField && !(comp instanceof JPasswordField)){
+            JTextField field = (JTextField) comp;
+            field.setText("user");
+            field.setForeground(Color.GRAY);
+        } else if (comp instanceof JPasswordField){
+            JPasswordField field = (JPasswordField) comp;
+            field.setText("password");
+            field.setForeground(Color.GRAY);
+        } else if (comp instanceof JButton) {
+            JButton button = (JButton) comp;
+            if (button.getText().equals("Log in!")) {
+                button.setEnabled(false); 
+            }
+        } else if (comp instanceof JPanel){
+            resetLoginFields((JPanel) comp);
+        }
+    }
+}
 
     private JPanel buildBookingPage() {
         return null;
