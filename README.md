@@ -147,9 +147,6 @@
 ![UI Homepage Mockup](images/ui_mockup_home.png)
 ![UI Profile Mockup](images/ui_mockup_profile.png)
 
-**Description:**  
-Describe the visual layout, navigation flow, and design rationale.
-
 ---
 
 ## Setup & Installation
@@ -158,7 +155,7 @@ Describe the visual layout, navigation flow, and design rationale.
 Before running the project, make sure you have:
 - **Java JDK 17+** installed  
 - **SQLite** (comes prepackaged, no setup needed if using `sqlite-jdbc.jar`)  
-- A compatible **IDE** such as IntelliJ IDEA, Eclipse, or NetBeans  
+- A compatible **IDE** such as IntelliJ IDEA  
 - `sqlite-jdbc.jar` added to your project’s `/lib` folder  
 
 ### Installation Steps
@@ -175,7 +172,7 @@ Before running the project, make sure you have:
 
 3. **Set up the database**
     - The SQLite database file (e.g., `rideshare.db`) will be created locally automatically on first run.
-    - The code will automatically execute schema creation when launched (`schema.sql`).
+    - The code will automatically execute schema creation when launched with (`schema.sql`).
 
 4. **Run the program**
     - Locate and run the main entry point:
@@ -183,50 +180,6 @@ Before running the project, make sure you have:
       RideshareApp.java
       ```  
     - The **Swing UI** should open automatically once the database connection is established.
-
-### 📁 Project File Structure 
-
-Below is the recommended layout for the project repository:
-
-```bash
-│ 
-│   .gitignore
-│   README.md
-│   rideshare.db
-│   schema.sql
-│           
-├───images
-│       architecture_diagram.png
-│       case_diagram.png
-│       context_diagram.png
-│       sequence_diagram_1.png
-│       sequence_diagram_2.png
-│       
-├───lib
-│       sqlite-jdbc-3.50.3.0.jar
-│                   
-└───src
-│       Car.java
-│       COMP-390.iml
-│       DatabaseManager.java
-│       Driver.java
-│       DriverDAO.java
-│       DriverDAOSQLite.java
-│       FareCalculator.java
-│       History.java
-│       HistoryDAO.java
-│       HistoryDAOSQLite.java
-│       New_code.java
-│       Payment.java
-│       PaymentDAO.java
-│       PaymentDAOSQLite.java
-│       Rider.java
-│       RiderDAO.java
-│       RiderDAOSQLite.java
-│       RideshareApp.java
-│       TestingHere.java
-│       User.java
-```
 
 ---
 
