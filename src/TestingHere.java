@@ -100,7 +100,15 @@ public class TestingHere {
         assertFalse(dao.findAll().isEmpty());
     }
 
-
+    @Test
+    void testCarSQL() throws Exception {
+        CarDAO dao = new CarDAOSQLite();
+        Car c = new Car(1, "Tesla", "Model Y", 2025, "White", "Black", "Leather",
+        60000, "good", "1MA123");
+        int car_id = dao.insert(c);
+        c.setCarId(car_id);
+        
+    }
     
     @Test
     void testFareCalculator() {

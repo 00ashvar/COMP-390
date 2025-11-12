@@ -8,6 +8,7 @@ public class Car {
     private int year;
     private String exteriorColor;
     private String interiorColor;
+    private String interiorMaterials;
     private String licensePlate;
     private double price;
     private String condition;
@@ -17,33 +18,28 @@ public class Car {
     public Car(){}
 
     //Constructor
-    public Car(int carId, int userId, User user, String make, String model, int year,
-               String exteriorColor, String interiorColor, String licensePlate,
-               double price, String condition, boolean isAvailable)
+    public Car(int userId, String make, String model, int year,
+               String exteriorColor, String interiorColor, String interiorMaterials,
+               double price, String condition, String licensePlate)
     {
-        this.carId = carId;
         this.userId = userId;
-        this.user = user;
         this.make = make;
         this.model = model;
         this.year = year;
         this.exteriorColor = exteriorColor;
         this.interiorColor = interiorColor;
+        this.interiorMaterials = interiorMaterials;
         this.licensePlate = licensePlate;
         this.price = price;
         this.condition = condition;
-        this.isAvailable = isAvailable;
     }
 
     //Getters
-    public User getUser() {
-        return user;
-    }
     public int getCarId() {
         return carId;
     }
-    public int getDriverId() {
-        return carId;
+    public int getUserId() {
+        return userId;
     }
     public String getMake() {
         return make;
@@ -60,6 +56,9 @@ public class Car {
     public String getInteriorColor() {
         return interiorColor;
     }
+    public String getInteriorMaterials() {
+        return interiorMaterials;
+    }
     public String getLicensePlate() {
         return licensePlate;
     }
@@ -74,9 +73,6 @@ public class Car {
     }
 
     //Setters
-    public void setUser(User user) {
-        this.user = user;
-    }
     public void setCarId(int carId) {
         this.carId = carId;
     }
@@ -97,6 +93,9 @@ public class Car {
     }
     public void setInteriorColor(String interiorColor) {
         this.interiorColor = interiorColor;
+    }
+    public void setInteriorMaterials(String interiorMaterials) {
+        this.interiorMaterials = interiorMaterials;
     }
     public void setLicensePlate(String licensePlate) {
         this.licensePlate = licensePlate;
