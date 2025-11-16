@@ -1,11 +1,14 @@
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.text.Document;
 import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.sql.*;
-import javax.swing.event.*;
-import javax.swing.text.Document;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -70,7 +73,7 @@ public class RideshareApp extends JFrame {
         // add pages to CardLayout with our keys (see GeeksforGeeks tutorial "1", "2" ... cards)
         cards.add(loginPage, LOGIN);
 
-        //cards.add(bookPage, BOOK);
+        cards.add(bookPage, BOOK);
         cards.add(profPage, PROF);
         cards.add(histPage, HIST);
         cards.add(viewProf, VIEW_PROF);
@@ -165,12 +168,6 @@ public class RideshareApp extends JFrame {
             }
         };
 
-        // enable only when text in both
-        Runnable update = () -> {
-            boolean ok = !userTF.getText().trim().isEmpty()
-                    && passPF.getPassword().length > 0;
-            loginButton.setEnabled(ok);
-        };
         userTF.getDocument().addDocumentListener(documentListener);
         passPF.getDocument().addDocumentListener(documentListener);
 
@@ -338,16 +335,17 @@ public class RideshareApp extends JFrame {
 
         JButton bookRideButton = new JButton("Book a Ride");
         bookRideButton.addActionListener(e -> {
-            //TODO: Uncomment when booking page is implemented
-            //c1.show(cards, BOOK);
-            JOptionPane.showMessageDialog(this,
-             "Booking page is under construction",
-            "Coming Soon",
-            JOptionPane.INFORMATION_MESSAGE);
+
+            // refresh the page by rebuilding it
+            JPanel booking = buildBookingPage();
+            cards.add(booking, BOOK);
+            c1.show(cards, BOOK);
         });
 
         JButton historyButton = new JButton("View History");
         historyButton.addActionListener(e -> {
+
+            // refresh the page by rebuilding it
             JPanel histPage = buildHistoryPage();
             cards.add(histPage, HIST);
             c1.show(cards, HIST);
@@ -482,10 +480,173 @@ public class RideshareApp extends JFrame {
 
     /**
      *  Builds the book page to displace book trip and cost
-     * @return -
+     * @return JPanel of the booking page
      */
     private JPanel buildBookingPage() {
-        return null;
+        JPanel p = new JPanel(new BorderLayout(10,10));
+        p.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
+
+
+        JLabel title = new JLabel("<html><h1>Book a Trip</h1></html>");
+        p.add(title, BorderLayout.NORTH);
+
+        // the form panel
+        JPanel form = new JPanel(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(8,8,8,8);
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+
+        AutoCompleteTextField pickUpT = new AutoCompleteTextField(15);
+        AutoCompleteTextField dropoffT = new AutoCompleteTextField(15);
+
+        textHelper(pickUpT,"Pickup Address");
+        textHelper(dropoffT, "Drop-off Address");
+
+        JButton searchPickButton = new JButton("Search");
+        JButton searchDropButton = new JButton("Search");
+
+        searchPickButton.addActionListener(e -> pickUpT.searchNow());
+        searchDropButton.addActionListener(e -> dropoffT.searchNow());
+
+        // top row
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 0;
+        form.add(new JLabel("Pickup Location:"), gbc);
+
+        gbc.gridx = 1;
+        gbc.weightx = 1.0;
+        form.add(pickUpT, gbc);
+
+        gbc.gridx = 2;
+        gbc.weightx = 0;
+        form.add(searchPickButton, gbc);
+
+        // lower row
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.weightx = 0;
+        form.add(new JLabel("Drop-off Location:"), gbc);
+
+        gbc.gridx = 1;
+        gbc.weightx = 1.0;
+        form.add(dropoffT, gbc);
+
+        gbc.gridx = 2;
+        gbc.weightx = 0;
+        form.add(searchDropButton, gbc);
+
+
+        int row = 0;
+        row = addRowHelper(form, gbc, row, "Pickup Location:", pickUpT);
+        row = addRowHelper(form, gbc, row, "Drop-off Location:", dropoffT);
+
+        p.add(form, BorderLayout.CENTER);
+
+        // Place image of MAP here
+        JPanel mapHolder = new JPanel(new BorderLayout());
+        mapHolder.setPreferredSize(new Dimension(400,400));
+        p.add(mapHolder,BorderLayout.EAST);
+
+
+        // bottons for navigation
+        JPanel lower = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JButton backBttn = new JButton("Back");
+        JButton viewBttn = new JButton("Preview Map");
+        JButton reqBttn = new JButton("Request Trip");
+
+        lower.add(backBttn);
+        lower.add(viewBttn);
+        lower.add(reqBttn);
+        p.add(lower, BorderLayout.SOUTH);
+
+        //back -> home
+        backBttn.addActionListener(e -> c1.show(cards, HOME));
+
+        //viewBttn.addActionListener(e -> {
+        // ImageIcon img = new ImageIcon("path/to/img.png");
+        // JLabel imgL = new JLable(img);
+        // mapHolder.add(imgL, BorderLayout.CENTER);
+        // mapHolder.repaint();
+        // });
+
+        // request botton
+        reqBttn.addActionListener(e -> {
+            String pickUp = pickUpT.getText().trim();
+            String dropOff = dropoffT.getText().trim();
+
+            if (!pickUpT.hasValidSelection()) {
+                JOptionPane.showMessageDialog(this,
+                        "Please choose a valid Pickup address from the suggestions.",
+                        "Invalid Pickup Location",
+                        JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            if (!dropoffT.hasValidSelection()) {
+                JOptionPane.showMessageDialog(this,
+                        "Please choose a valid Drop-off address from the suggestions.",
+                        "Invalid Drop-off Location",
+                        JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+
+            try {
+                // geocode - placeholder for now
+                double distMiles = 3.0;
+                int durMin = 10;
+
+                double fare = FareCalculator.calculateStandardFare(distMiles,durMin);
+
+                History newTrip = new History(
+                        currentUserID,
+                        1, // <- this is annoying, think of another way
+                        java.time.LocalDateTime.now().toString(),
+                        pickUp,
+                        dropOff,
+                        fare,
+                        "requested",
+                        "N/A"
+                );
+
+                HistoryDAO histDao = new HistoryDAOSQLite();
+                histDao.insert(newTrip);
+
+                JOptionPane.showMessageDialog(this,
+                        "Ride has been Requested!\nTrip # "+
+                        newTrip.getHistoryID()+"\nFare: $"+
+                        String.format("%.2f", fare), "Success",
+                        JOptionPane.INFORMATION_MESSAGE);
+
+                // refresh home page by rebuilding it
+                JPanel homePage = buildHomePage();
+                cards.add(homePage, HOME);
+                c1.show(cards, HOME);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this,
+                        "Error saving your ride:\n"+
+                        ex.getMessage(), "Database Errror",
+                        JOptionPane.ERROR_MESSAGE);
+                ex.printStackTrace();
+            }
+        });
+        return p;
+    }
+
+    /**
+     *
+     * @param current
+     * @return
+     */
+    private String getNextStatus(String current){
+        switch (current){
+            case "Requested": return "Accepted";
+            case "Accepted": return "In-Progress";
+            case "In-Progress": return "Completed";
+            default: return "Completed";
+        }
     }
 
     /**
@@ -851,15 +1012,42 @@ public class RideshareApp extends JFrame {
                 listPanel.add(new JLabel("No Previous Trips."));
             } else {
                 for (History h : trips) {
-                    String text = String.format(
-                            "Trip #%d  |  %s -> %s  |  $%.2f  |  %s",
-                            h.getHistoryID(),
-                            h.getPickupLoc(),
-                            h.getDropoffLoc(),
-                            h.getFare(),
-                            h.getStatus()
+                    JPanel row = new JPanel(new FlowLayout(FlowLayout.LEFT));
+
+                    JLabel label = new JLabel(
+                            String.format(
+                                "Trip #%d  |  %s -> %s  |  $%.2f  |  %s",
+                                h.getHistoryID(),
+                                h.getPickupLoc(),
+                                h.getDropoffLoc(),
+                                h.getFare(),
+                                h.getStatus()
+                            )
                     );
-                    listPanel.add(new JLabel((text)));
+
+                    JButton updateBttn = new JButton("Next Status");
+                    updateBttn.addActionListener(e -> {
+                        try {
+                            String newStatus = getNextStatus(h.getStatus());
+                            h.setStatus(newStatus);
+
+                            HistoryDAO histDao2 = new HistoryDAOSQLite();
+                            histDao2.update(h);
+
+                            JOptionPane.showMessageDialog(this,
+                                    "Trip status updated to: "+newStatus);
+
+                            JPanel refreshed = buildHistoryPage();
+                            cards.add(refreshed, HIST);
+                            c1.show(cards, HIST);
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+                    });
+
+                    row.add(label);
+                    row.add(updateBttn);
+                    listPanel.add(row);
                 }
             }
         } catch (Exception e) {
