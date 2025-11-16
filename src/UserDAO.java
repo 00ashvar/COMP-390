@@ -1,8 +1,13 @@
 import java.util.List;
 import java.util.Optional;
-// Interface defines basic operations (CRUD)
-// Each method here is implemented in UserDAOSQLite
 
+/**
+ * UserDAO
+ * version 0.1
+ * 10/19/25
+ * Interface defines basic operations (CRUD)
+ * Each method here is implemented in UserDAOSQLite
+ */
 public interface UserDAO {
     int insert(User d) throws Exception;
     Optional<User> findById(int UserId) throws Exception;

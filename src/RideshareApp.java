@@ -10,6 +10,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
+/**
+ * This is the main app that builds the gui and create instances
+ * of all the needed models
+ */
 public class RideshareApp extends JFrame {
 
     // card names (keys for different screens)
@@ -41,6 +45,9 @@ public class RideshareApp extends JFrame {
     private final CardLayout c1 = new CardLayout();
     private final JPanel cards = new JPanel(c1);
 
+    /**
+     * Constructor to create instance of the class used in main.
+     */
     public RideshareApp() {
         setTitle("Rideshare App"); // should we come up with a fun name?
                                    // ^ Yes! I think we can do better!
@@ -56,7 +63,7 @@ public class RideshareApp extends JFrame {
 //      cards.add(homePage, HOME);
 
         JPanel bookPage = buildBookingPage();
-        JPanel profPage = buildProfilePage();
+        JPanel profPage = buildEditProfilePage();
         JPanel histPage = buildHistoryPage();
         JPanel viewProf = buildProfileOverviewPage();
 
@@ -74,6 +81,10 @@ public class RideshareApp extends JFrame {
 
     }
 
+    /**
+     * Builds the loging page and verify user Authentication
+     * @return the JPanel for the login page
+     */
     private JPanel buildLoginPage() {
         JPanel loginPage = new JPanel(new GridBagLayout());
 
@@ -220,7 +231,11 @@ public class RideshareApp extends JFrame {
         return loginPage;
     }
 
-    // This will return the current user's username
+    /**
+     * Get the current login username
+     * @return Returns the current user's username
+     * @exception Exception returns a fix value: Commander instead of username.
+     */
     private String getCurrentUserName(){
         try {
             UserDAOSQLite dao = new UserDAOSQLite();
@@ -235,6 +250,10 @@ public class RideshareApp extends JFrame {
         return "Commander";
     }
 
+    /**
+     * Builds the Home page after user logs in
+     * @return JPanel for the Home page
+     */
     private JPanel buildHomePage() {
         //JPanel homePanel = new JPanel();
         JPanel homePanel = new JPanel(new BorderLayout(10, 10));
@@ -362,7 +381,9 @@ public class RideshareApp extends JFrame {
     
     }
 
-    // Call this when opening the Profile page so field are populated from DB
+    /**
+     * Call this when opening the Profile page so field are populated from DB
+     */
     private void loadCurrentUserIntoProfile() {
         try {
             UserDAOSQLite userDAO = new UserDAOSQLite();
@@ -405,7 +426,9 @@ public class RideshareApp extends JFrame {
         }
     }
 
-    // Call this when opening the Profile page so field are populated from DB
+    /**
+     *  Call this when opening the Profile page so field are populated from DB
+     */
     private void loadUserIntoViewProf() {
         try {
             UserDAOSQLite user = new UserDAOSQLite();
@@ -432,7 +455,10 @@ public class RideshareApp extends JFrame {
         }
     }
 
-    //helper method to reset login fields on logout
+    /**
+     * Helper method to reset login fields on logout
+     * @param panel the JPanel that hold the JTextFields to be reset
+     */
     private void resetLoginFields(JPanel panel){
     for (Component comp : panel.getComponents()){
         if (comp instanceof JTextField && !(comp instanceof JPasswordField)){
@@ -454,10 +480,23 @@ public class RideshareApp extends JFrame {
     }
 }
 
+    /**
+     *  Builds the book page to displace book trip and cost
+     * @return -
+     */
     private JPanel buildBookingPage() {
         return null;
     }
 
+    /**
+     * Helper to correctly devide the panel for multiple JLables and JTextFields
+     * @param form The JPanel that will be modified
+     * @param gbc The created grids to be places in the JPanel
+     * @param row Integer, The number of rows
+     * @param labelText String, The label for the JTextField
+     * @param field The JTextField to be added
+     * @return Integer, Number of rows + 1 to move to the next row
+     */
     private int addRowHelper(JPanel form, GridBagConstraints gbc, int row, String labelText, JTextField field) {
         gbc.gridx = 0;
         gbc.gridy = row;
@@ -473,7 +512,11 @@ public class RideshareApp extends JFrame {
         return row + 1;
     }
 
-    // a helper (Profile) to set text gray & clear on focus, then restore if empty
+    /**
+     * A helper (Profile) to set text gray & clear on focus, then restore if empty
+     * @param tf The target JTextField
+     * @param placeHolder String, The display message while not focus
+     */
     private void textHelper(JTextField tf, String placeHolder){
         tf.setText(placeHolder);
         tf.setForeground(Color.GRAY);
@@ -496,9 +539,10 @@ public class RideshareApp extends JFrame {
     }
 
     /**
-     * Builds the main Profile Page panel with nested layouts for perfect alignment.
+     * Builds the editable Profile Page panel with nested layouts for perfect alignment.
+     * @return JPanel profile page containing current user info
      */
-    private JPanel buildProfilePage() {
+    private JPanel buildEditProfilePage() {
         // needed to count rows in the grid
         int prow = 0;
         int adrow = 0;
@@ -716,6 +760,10 @@ public class RideshareApp extends JFrame {
         return profilePage;
     }
 
+    /**
+     * Builds the read-only profile page.
+     * @return JPanel profile page containing current user info
+     */
     private JPanel buildProfileOverviewPage() {
         JPanel p = new JPanel(new BorderLayout(10,10));
         p.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
@@ -781,7 +829,10 @@ public class RideshareApp extends JFrame {
         return  p;
     }
 
-
+    /**
+     * Builds the JPanel History page for displaying privious trips
+     * @return JPanel holding information about the user's past travels
+     */
     private JPanel buildHistoryPage() {
         JPanel p = new JPanel(new BorderLayout(10,10));
 
@@ -829,6 +880,10 @@ public class RideshareApp extends JFrame {
         return p;
     }
 
+    /**
+     * Main calls for the app
+     * @param args -
+     */
     public static void main(String[] args) {
         String schemaFile = "schema.sql";
         String databaseURL = "jdbc:sqlite:rideshare.db";

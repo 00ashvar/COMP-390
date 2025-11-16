@@ -1,5 +1,11 @@
 import java.sql.*;
-// establishes connection to database for DAOSQLite classes
+
+/**
+ * DatabaseManager
+ * version 0.1
+ * 10/19/25
+ * establishes connection to database for DAOSQLite classes
+ */
 public class DatabaseManager {
     // open or create file rideshare.db
     private static final String URL = "jdbc:sqlite:rideshare.db";

@@ -1,7 +1,10 @@
-/** FareCalculator - Handles fare calculation for trips
+/**
+ * FareCalculator
+ * version 0.1
+ * 10/19/25
+ * FareCalculator - Handles fare calculation for trips
  * Supports standard, premium, and shared ride fare calculations
  */
-
 public class FareCalculator{
 
     //standard pricing constants
@@ -21,8 +24,12 @@ public class FareCalculator{
     //booking fee
     private static final double BOOKING_FEE = 1.00;
 
-
-    //calculate fare for a standard ride
+    /**
+     * calculate fare for a standard ride
+     * @param distanceMiles Double, Distance for the trip
+     * @param durationMinutes Double, Estimated time of arrival
+     * @return Double, Specific price to pay for this trip
+     */
     public static double calculateStandardFare(double distanceMiles, int durationMinutes){
         validateInputs(distanceMiles, durationMinutes);
 
@@ -32,8 +39,14 @@ public class FareCalculator{
                     (durationMinutes * RATE_PER_MINUTE);
 
         return applyMinimumFare(roundToTwoDecimals(fare));
-    }   
-    //calculate fare for a premium ride
+    }
+
+    /**
+     * Calculate fare for a premium ride
+     * @param distanceMiles Double, Distance for the trip
+     * @param durationMinutes Double, Estimated time of arrival
+     * @return Double, Specific price to pay for this trip
+     */
     public static double calculatePremiumFare(double distanceMiles, int durationMinutes){
         validateInputs(distanceMiles, durationMinutes);
 
@@ -44,7 +57,13 @@ public class FareCalculator{
 
         return applyMinimumFare(roundToTwoDecimals(fare));
     }
-    //calculate fare for a shared ride (25% discount)
+
+    /**
+     * Calculate fare for a shared ride (25% discount)
+     * @param distanceMiles Double, Distance for the trip
+     * @param durationMinutes Double, Estimated time of arrival
+     * @return Double, Specific price to pay for this trip
+     */
     public static double calculateSharedFare(double distanceMiles, int durationMinutes){
 
         double standardFare = calculateStandardFare(distanceMiles, durationMinutes);
@@ -54,19 +73,29 @@ public class FareCalculator{
 
     }
 
-   //helper methods
-
-   //round to two decimal places (for currency)
+    /**
+     * Helper methods; round to two decimal places (for currency)
+     * @param value Double,
+     * @return Double, The value provide rounded to the currency format
+     */
    public static double roundToTwoDecimals(double value){
         return Math.round(value * 100.0) / 100.0;
     }
 
-    //ensure fare meets minimum fare requirement
+    /**
+     * Ensure fare meets minimum fare requirement
+     * @param fare The value to be checked
+     * @return Double, The minimun value for fare
+     */
     public static double applyMinimumFare(double fare){
         return Math.max(fare, MINIMUM_FARE);
     }
 
-    //validate that inputs are non-negative
+    /**
+     * Validate that inputs are non-negative
+     * @param distanceMiles Double, Distance for the trip
+     * @param durationMinutes Double, Estimated time of arrival
+     */
     public static void validateInputs(double distanceMiles, int durationMinutes){
         if(distanceMiles < 0) {
             throw new IllegalArgumentException("Distance cannot be negative.");

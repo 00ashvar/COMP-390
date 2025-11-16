@@ -4,7 +4,17 @@ import java.sql.SQLException;
 import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * TestingHere
+ * version 0.1
+ * 10/19/25
+ * This class in meant to test the use cases
+ * and funtionality of the application
+ */
 public class TestingHere {
+    /**
+     * Test the Car Class by creating and assinging values
+     */
     @Test
     void testCar() {
         System.out.println("Test");
@@ -27,6 +37,9 @@ public class TestingHere {
         System.out.println(c);
     }
 
+    /**
+     * Testing the User Class by creating and assinging values
+     */
     @Test
     void testUser() {
         User d = new User();
@@ -40,6 +53,9 @@ public class TestingHere {
         assertEquals("MA", d.getState());
     }
 
+    /**
+     * Testing the History Class by creating and assinging values
+     */
     @Test
     void testHistory() {
         History h = new History();
@@ -52,6 +68,9 @@ public class TestingHere {
         assertNull(h.getStatus());
     }
 
+    /**
+     * Testing the Payment Class by creating and assinging values
+     */
     @Test
     void testPayment() {
         Payment p = new Payment();
@@ -63,6 +82,10 @@ public class TestingHere {
         assertNotNull(p.generateReceipt());
     }
 
+    /**
+     * Testing the connection to the database
+     * @throws SQLException
+     */
     @Test
     void testDatabaseConnection() throws SQLException {
         try(Connection c = DatabaseManager.get()) {
@@ -70,6 +93,10 @@ public class TestingHere {
         }
     }
 
+    /**
+     * Test for user insertion and update
+     * @throws Exception
+     */
     @Test
     void testUserSQL() throws Exception {
         UserDAO dao = new UserDAOSQLite();
@@ -100,6 +127,10 @@ public class TestingHere {
         assertFalse(dao.findAll().isEmpty());
     }
 
+    /**
+     * Test for Car insertion and update
+     * @throws Exception
+     */
     @Test
     void testCarSQL() throws Exception {
         CarDAO dao = new CarDAOSQLite();
@@ -109,7 +140,10 @@ public class TestingHere {
         c.setCarId(car_id);
         
     }
-    
+
+    /**
+     * Test calculation of a trip with correct output
+     */
     @Test
     void testFareCalculator() {
         System.out.println("\n=== Testing FareCalculator ===");

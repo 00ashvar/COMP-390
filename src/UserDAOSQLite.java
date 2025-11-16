@@ -3,14 +3,24 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-// This class handles interactions between our program and our database.
-// DAOs contain all the database specific code that allows the application
-// to interact with data without dealing with how it's stored or retrieved.
+/**
+ * UserDAOSQLite
+ * version 0.1
+ * 10/19/25
+ * This class handles interactions between our program and our database.
+ * DAOs contain all the database specific code that allows the application
+ * to interact with data without dealing with how it's stored or retrieved.
+ */
 class UserDAOSQLite implements UserDAO {
 
-    // Adds a new User record/row to the database
-    // User_id is automatically generate by the database so it's not included
-    // in the INSERT statement, but added to the User object for the application after.
+    /**
+     * Adds a new User record/row to the database
+     * User_id is automatically generate by the database so it's not included
+     * in the INSERT statement, but added to the User object for the application after.
+     * @param d An instance of User class
+     * @return Integer, A new user ID
+     * @throws Exception
+     */
     @Override
     public int insert(User d) throws Exception {
         // SQL query statement for easy usage and maintenance
@@ -46,7 +56,14 @@ class UserDAOSQLite implements UserDAO {
         }
     }
 
-    // Identify single User from the database using their User_id
+    //
+
+    /**
+     * Identify single User from the database using their User_id
+     * @param UserID Integer, UserID to search for
+     * @return User instance if found
+     * @throws Exception
+     */
     @Override
     public Optional<User> findById(int UserID) throws Exception {
         // SQL query statement for easy usage and maintenance
@@ -82,7 +99,11 @@ class UserDAOSQLite implements UserDAO {
         }
     }
 
-    // Pulls all Users from database
+    /**
+     * Pulls all Users from database
+     * @return List, List of User class instances
+     * @throws Exception
+     */
     @Override
     public List<User> findAll() throws Exception {
         // SQL query statement for easy usage and maintenance
@@ -118,7 +139,12 @@ class UserDAOSQLite implements UserDAO {
         }
     }
 
-    // Update existing User in database, using User_id (primary key)
+    /**
+     * Update existing User in database, using User_id (primary key)
+     * @param d  User instance to be updated
+     * @return The updated User instance
+     * @throws Exception
+     */
     @Override
     public int update(User d) throws Exception {
         // SQL query statement for easy usage and maintenance
@@ -128,7 +154,6 @@ class UserDAOSQLite implements UserDAO {
         try(Connection c = DatabaseManager.get();
             PreparedStatement ps = c.prepareStatement(UPDATE_User_SQL)) {
 
-            // Placeholder ? get updated with new values
             ps.setString(1, d.getUsername());
             ps.setString(2, d.getPassword());
             ps.setString(3, d.getFirstName());
@@ -149,7 +174,12 @@ class UserDAOSQLite implements UserDAO {
         }
     }
 
-    // Delete User from database using User_id
+    /**
+     * Delete User from database using User_id
+     * @param UserID Integer, the user ID
+     * @return -
+     * @throws Exception
+     */
     @Override
     public int delete(int UserID) throws Exception{
         // SQL query statement for easy usage and maintenance

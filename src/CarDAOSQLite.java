@@ -3,13 +3,24 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-// This class handles interactions between our program and our database.
-// DAOs contain all the database specific code that allows the application
-// to interact with data without dealing with how it's stored or retrieved.
+/**
+ * CarDAOSQLite
+ * version 0.1
+ * 10/19/25
+ * This class handles interactions between our program and our database.
+ * DAOs contain all the database specific code that allows the application
+ * to interact with data without dealing with how it's stored or retrieved.
+ */
 class CarDAOSQLite implements CarDAO {
-    // Adds a new Car record/row to the database
-    // car_id is automatically generate by the database so it's not included
-    // in the INSERT statement, but added to the Car object for the application after.
+
+    /**
+     * Adds a new Car record/row to the database car_id is automatically
+     * generate by the database so it's not included in the INSERT statement,
+     * but added to the Car object for the application after.
+     * @param d A Car instance
+     * @return Integer, The ID of the car
+     * @throws Exception
+     */
     @Override
     public int insert(Car d) throws Exception {
         // SQL query statement for easy usage and maintenance
@@ -40,7 +51,12 @@ class CarDAOSQLite implements CarDAO {
         }
     }
 
-    // Identify single Car from the database using their User_id
+    /**
+     * Identify single Car from the database using their User_id
+     * @param carID Integer, Takes the ID of the current user (only driver user)
+     * @return Car object with the same ID provided
+     * @throws Exception
+     */
     @Override
     public Optional<Car> findById(int carID) throws Exception {
         // SQL query statement for easy usage and maintenance
@@ -71,7 +87,11 @@ class CarDAOSQLite implements CarDAO {
         }
     }
 
-    // Pulls all Cars from database
+    /**
+     * Pulls all Cars from database
+     * @return List, a list of cars instances
+     * @throws Exception
+     */
     @Override
     public List<Car> findAll() throws Exception {
         // SQL query statement for easy usage and maintenance
@@ -102,7 +122,13 @@ class CarDAOSQLite implements CarDAO {
         }
     }
 
-    // Update existing Car in database, using car_id (primary key)
+    /**
+     * Update existing Car in database, using car_id (primary key)
+     * {@literal User (driver) may change/acquire new car, then update cards ID}
+     * @param d Car, The instance of the vehicle to update ID
+     * @return -
+     * @throws Exception
+     */
     @Override
     public int update(Car d) throws Exception {
         // SQL query statement for easy usage and maintenance
@@ -112,7 +138,6 @@ class CarDAOSQLite implements CarDAO {
         try(Connection c = DatabaseManager.get();
             PreparedStatement ps = c.prepareStatement(UPDATE_CAR_SQL)) {
 
-            // Placeholder ? get updated with new values
             ps.setInt(1, d.getUserId());
             ps.setString(2, d.getMake());
             ps.setString(3, d.getModel());
@@ -128,7 +153,12 @@ class CarDAOSQLite implements CarDAO {
         }
     }
 
-    // Delete Car from database using car_id
+    /**
+     * Delete Car from database using car_id
+     * @param carID Integer, The ID of car to be deleted
+     * @return -
+     * @throws Exception
+     */
     @Override
     public int delete(int carID) throws Exception{
         // SQL query statement for easy usage and maintenance

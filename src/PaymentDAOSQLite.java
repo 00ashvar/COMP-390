@@ -5,11 +5,19 @@ import java.util.Optional;
 
 
 /**
+ * PaymentDAOSQLite
+ * version 0.1
+ * 10/19/25
  * This class implemets the contract with PaymentDAO and allows for data storage and retrieval.
  */
 public class PaymentDAOSQLite implements PaymentDAO {
 
-
+    /**
+     * Allows data insertion to the database
+     * @param p An instance of a Payment class
+     * @return Integer, The Payment ID
+     * @throws Exception
+     */
     @Override
     public int insert(Payment p) throws Exception{
         final String INSERT_PAYMENT_SQL = "INSERT INTO payment (paid_id, paid_method, fare_total, status, " +
@@ -36,6 +44,11 @@ public class PaymentDAOSQLite implements PaymentDAO {
         }
     }
 
+    /**
+     * Find all payments from database
+     * @return List, A list of all instances of the payment class
+     * @throws Exception
+     */
     @Override
     public List<Payment> findAll() throws Exception {
         final String SELECT_ALL_PAYMENT_SQL = "SELECT * FROM payment ";
@@ -92,6 +105,12 @@ public class PaymentDAOSQLite implements PaymentDAO {
         }
     }
 
+    /**
+     * Updates information of a given payment instance class
+     * @param p The payment instance class to be updated
+     * @return -
+     * @throws Exception
+     */
     @Override
     public int update(Payment p) throws Exception{
 

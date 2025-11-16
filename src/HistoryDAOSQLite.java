@@ -48,6 +48,8 @@ public class HistoryDAOSQLite implements HistoryDAO{
     @Override
     /**
      * Identify single Trip from the database history table using trip_id
+     * @param tripID Integer, The ID of the wanted trip
+     * @throws Exception
      */
     public Optional<History> findById(int tripID) throws Exception {
         // SQL query statement for easy usage and maintenance
@@ -78,7 +80,11 @@ public class HistoryDAOSQLite implements HistoryDAO{
         }
     }
 
-    // Pulls all trips from database
+    /**
+     * Pulls all trips from database
+     * @return List, A list of all history instances
+     * @throws Exception
+     */
     @Override
     public List<History> findAll() throws Exception {
         // SQL query statement for easy usage and maintenance
@@ -109,7 +115,12 @@ public class HistoryDAOSQLite implements HistoryDAO{
         }
     }
 
-    // Pulls all trips for single user from database
+    /**
+     * Pulls all trips for single user from database
+     * @param userID Integer, The wanted user's ID
+     * @return List, A array of history instance
+     * @throws Exception
+     */
     @Override
     public List<History> findUserHistory(int userID) throws Exception {
         // SQL query statement for easy usage and maintenance
@@ -118,7 +129,7 @@ public class HistoryDAOSQLite implements HistoryDAO{
                 "WHERE c.user_id = ?";
         try(Connection c = DatabaseManager.get();
             PreparedStatement ps = c.prepareStatement(SELECT_ALL_DRIVER_HISTORY_SQL)) {
-            // Placeholder ? replaced by actual ID
+
             ps.setInt(1, userID);
             try(ResultSet rs = ps.executeQuery()) {
                 List<History> out = new ArrayList<>();
@@ -142,7 +153,12 @@ public class HistoryDAOSQLite implements HistoryDAO{
         }
     }
 
-    // Update existing trip in database, using trip_id (primary key)
+    /**
+     * Update existing trip in database, using trip_id (primary key)
+     * @param h An instance of history
+     * @return -
+     * @throws Exception
+     */
     @Override
     public int update(History h) throws Exception {
         // SQL query statement for easy usage and maintenance
@@ -165,7 +181,12 @@ public class HistoryDAOSQLite implements HistoryDAO{
         }
     }
 
-    // Delete trip from database using trip_id
+    /**
+     * Delete trip from database using trip_id
+     * @param tripID Integer, The trip ID that is going to be deleted
+     * @return -
+     * @throws Exception
+     */
     @Override
     public int delete(int tripID) throws Exception{
         // SQL query statement for easy usage and maintenance
